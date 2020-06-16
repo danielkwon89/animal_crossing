@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require './lib/animal_crossing'
+require 'colorize'
+
+AnimalCrossing::CLI.new.call
