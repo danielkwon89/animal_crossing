@@ -3,5 +3,6 @@ require "./lib/animal_crossing"
 require "colorize"
 require "open-uri"
 require "nokogiri"
+require "launchy"
 
 AnimalCrossing::CLI.new.call

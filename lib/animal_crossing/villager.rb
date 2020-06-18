@@ -3,7 +3,7 @@ class AnimalCrossing::Villager
 
     @@all = []
 
-    def initialize(name:, gender:, personality:, species:, birthday:, catch_phrase:, hobbies:, image_url:)
+    def initialize(name: nil, gender: nil, personality: nil, species: nil, birthday: nil, catch_phrase: nil, hobbies: nil, image_url: nil)
         @name = name
         @gender = gender
         @personality = personality
@@ -11,7 +11,8 @@ class AnimalCrossing::Villager
         @birthday = birthday
         @catch_phrase = catch_phrase
         @hobbies = hobbies
-        Villager.all << self
+        @image_url = image_url
+        AnimalCrossing::Villager.all << self
     end
 
     def self.all
@@ -19,6 +20,8 @@ class AnimalCrossing::Villager
     end
 
     def self.mass_assign_from_scraper
+        villagers = AnimalCrossing::Scraper.scrape_wiki
+        villagers.each{|i| self.new(i)}
     end
 
     # create methods to sort by name, personality, species, sort_by_birthday
