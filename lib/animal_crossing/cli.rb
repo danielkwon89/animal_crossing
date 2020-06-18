@@ -6,8 +6,13 @@ class AnimalCrossing::CLI
     
     def list_villagers
         # lists all Animal Crossing villagers 1 through n in alphabetical order scraped from https://animalcrossing.fandom.com/wiki/Villager_list_(New_Horizons)
+        puts '
+        _   _   _   _   _   _   _   _   _  
+       / \ / \ / \ / \ / \ / \ / \ / \ / \ 
+      ( V | i | l | l | a | g | e | r | s )
+       \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ 
+     '.colorize(:light_yellow)
         puts <<~HEREDOC
-        \n
         1. Annie
         2. Brian
         3. Carl
@@ -38,6 +43,17 @@ class AnimalCrossing::CLI
         end
     end
 
+    def goodbye
+        puts "\nThank you for using the Animal Crossing Villagers CLI gem!"
+        puts '
+        _   _   _   _   _     _   _   _   _  
+       / \ / \ / \ / \ / \   / \ / \ / \ / \ 
+      ( T | h | a | n | k ) ( y | o | u | ! )
+       \_/ \_/ \_/ \_/ \_/   \_/ \_/ \_/ \_/ 
+     '.colorize(:light_yellow)
+        puts "\n"
+    end
+
     def menu
         input = nil
         while input != "exit"
@@ -58,9 +74,5 @@ class AnimalCrossing::CLI
                 puts "Invalid entry."
             end
         end
-    end
-
-    def goodbye
-        puts "Thank you for using the Animal Crossing Villagers CLI gem!"
     end
 end # AnimalCrossing::CLI

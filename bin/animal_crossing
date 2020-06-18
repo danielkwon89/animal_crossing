@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
-require './lib/animal_crossing'
-require 'colorize'
+require "./lib/animal_crossing"
+require "colorize"
+require "open-uri"
+require "nokogiri"
 
 AnimalCrossing::CLI.new.call
