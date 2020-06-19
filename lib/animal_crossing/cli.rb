@@ -94,8 +94,8 @@ class AnimalCrossing::CLI
 
             input = gets.strip
 
-            if names.include?(input.capitalize)
-                view_villager_wiki(input.capitalize)
+            if names.include?(input.downcase)
+                view_villager_wiki(input.downcase)
             else
                 case input.downcase
                 when "list"
@@ -124,7 +124,8 @@ class AnimalCrossing::CLI
     end
 
     def view_villager_wiki(villager_name)
-        AnimalCrossing::Villager.view_villager_wiki(villager_name)
+        name = AnimalCrossing::Villager.all.select{|i| i.name.downcase == villager_name.downcase}.first.name
+        AnimalCrossing::Villager.view_villager_wiki(name)
     end
 
     def names

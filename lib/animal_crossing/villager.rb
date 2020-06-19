@@ -25,7 +25,7 @@ class AnimalCrossing::Villager
     end
 
     def self.names
-        self.all.map{|i| i.name}
+        self.all.map{|i| i.name.downcase}
     end
 
     def self.sort_by_name
@@ -45,7 +45,7 @@ class AnimalCrossing::Villager
     end
 
     def self.view_villager_wiki(villager_name)
-        villager = AnimalCrossing::Villager.all.detect{|i| i.name.downcase == villager_name.downcase} if self.names.include?(villager_name)
+        villager = AnimalCrossing::Villager.all.detect{|i| i.name.downcase == villager_name.downcase} if self.names.include?(villager_name.downcase)
         villager_name = villager.name
         if villager_name.include?(" ")
             villager.name.gsub(/\s/, "_")
