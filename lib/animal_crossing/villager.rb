@@ -55,10 +55,17 @@ class AnimalCrossing::Villager
         Launchy.open(AnimalCrossing::Scraper.base_url + villager_name) if villager != nil
     end
 
-    def self.villager_info
+    def self.villager_info(villager_name)
+        villager = self.all.select{|i| i.name.downcase == villager_name.downcase}.first
+        puts "Name: #{villager.name.colorize(:light_yellow)}\nGender: #{villager.gender.colorize(:light_yellow)}\nPersonality: #{villager.personality.colorize(:light_yellow)}\nSpecies: #{villager.species.colorize(:light_yellow)}\nBirthday: #{villager.birthday.colorize(:light_yellow)}\nCatchphrase: #{villager.catch_phrase.colorize(:light_yellow)}\nHobby: #{villager.hobbies.colorize(:light_yellow)}"
     end
 
-    def personalities
+    def self.personalities
+        self.all.map{|i| i.personality}.uniq.reject{|i| i == nil}.sort{|a, b| a <=> b}.each_with_index{|v, i| puts "#{i+1}. #{v}"}
+    end
+
+    def self.list_by_personalities(personality_name)
+        self.all.select{|i| i.personality == personality_name}.sort{|a, b| a.name <=> b.name}.each_with_index{|v, i| puts "#{i+1}. #{v.name}"}
     end
 
     def self.hobbies
