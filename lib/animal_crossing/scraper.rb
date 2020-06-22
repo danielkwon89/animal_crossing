@@ -26,9 +26,7 @@ class AnimalCrossing::Scraper
         attr_arr.map{|i| i.map{|i| i.start_with?("♂", "♀") ? i.split(" ") : i}}.flatten.each_slice(7){|i| final_attr_arr << i}
 
         image_urls.each_with_index{|v, i| final_attr_arr[i] << v}
-
-        # final_attr_arr.each{|i| villagers << i.each_with_object({}){|str, hsh| hsh[keys[i.index(str)]] = str}}
-
+        
         counter = 0
 
         final_attr_arr.each do |i| 
@@ -38,8 +36,6 @@ class AnimalCrossing::Scraper
             end
         counter = 0
         end
-
-        # binding.pry
 
         villagers
     end

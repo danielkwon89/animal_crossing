@@ -51,6 +51,8 @@ class AnimalCrossing::Villager
             villager.name.gsub(/\s/, "_")
         elsif villager_name.include?("'")
             villager.name.gsub(/\W/, "%27")
+        elsif villager_name == "Snooty"
+            villager_name += "_(villager)"
         end
         Launchy.open(AnimalCrossing::Scraper.base_url + villager_name) if villager != nil
     end
