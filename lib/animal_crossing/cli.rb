@@ -1,7 +1,6 @@
 class AnimalCrossing::CLI
     def call
         scrape
-        # binding.pry
         welcome
         menu
     end
@@ -23,20 +22,18 @@ class AnimalCrossing::CLI
             HEREDOC
 
             input = gets.strip.downcase
+
             if input == "list"
                 list_villagers
             elsif input == "species"
                 list_species
             elsif input == "personalities"
                 list_personalities
+                # add elsif input == "quiz" logic here
             else
-                puts "Invalid entry."
+                puts "\nInvalid entry."
             end
         end
-    end
-
-    def scrape
-        AnimalCrossing::Villager.mass_assign_from_scraper
     end
 
     def list_personalities
@@ -49,33 +46,30 @@ class AnimalCrossing::CLI
 
         personalities
 
-        puts "\n"
-        puts "Type a #{'personality name'.colorize(:light_cyan)} to view villagers of that #{'personality'.colorize(:light_cyan)} (e.g. #{'"Smug"'.colorize(:light_cyan)})."
+        puts "\nType a #{'personality name'.colorize(:light_cyan)} to view villagers of that #{'personality'.colorize(:light_cyan)} (e.g. #{'"Smug"'.colorize(:light_cyan)})."
         input = gets.strip.capitalize
         
         if personalities.include?(input)
-            puts "\n"
-
-            puts "#{input} Villagers"
+            puts "\n#{input} Villagers".colorize(:light_yellow)
             puts "\n"
             list_by_personalities(input)
-            puts "\n"
-            puts "Enter the #{"name".colorize(:light_cyan)} of the villager to get more info on (e.g. #{'"Bubbles"'.colorize(:light_cyan)})."
+            puts "\nEnter the #{"name".colorize(:light_cyan)} of the villager to get more info on (e.g. #{'"Bubbles"'.colorize(:light_cyan)})."
 
             name = gets.strip
+
             until AnimalCrossing::Villager.all.select{|i| i.personality == input}.map{|i| i.name.downcase}.include?(name.downcase)
             puts "Invalid entry. Enter the #{"name".colorize(:light_cyan)} of the villager to get more info on (e.g. #{'"Peppy"'.colorize(:light_cyan)})."
             name = gets.strip
             end
+
             name = AnimalCrossing::Villager.all.select{|i| i.name.downcase == name.downcase}.first.name
             puts "\n"
             villager_info(name)
         else
-            puts "Invalid entry."
+            puts "\nInvalid entry."
         end
 
-        puts "\n"
-        puts "Enter #{"wiki".colorize(:light_cyan)} to view the villager's wiki or #{"menu".colorize(:light_cyan)} for the menu."
+        puts "\nEnter #{"wiki".colorize(:light_cyan)} to view the villager's wiki or press #{"enter".colorize(:light_cyan)} for the menu."
         input = gets.strip
         if input == "wiki"
             view_villager_wiki(name)
@@ -104,20 +98,17 @@ class AnimalCrossing::CLI
 
         species
 
-        puts "\n"
-        puts "Type a #{'species name'.colorize(:light_cyan)} to view villagers of that #{'species'.colorize(:light_cyan)} (e.g. #{'"Hippo"'.colorize(:light_cyan)})."
+        puts "\nType a #{'species name'.colorize(:light_cyan)} to view villagers of that #{'species'.colorize(:light_cyan)} (e.g. #{'"Hippo"'.colorize(:light_cyan)})."
         input = gets.strip.capitalize
         
         if species.include?(input)
-            puts "\n"
-
-            puts "#{input} Villagers".colorize(:light_yellow)
+            puts "\n#{input} Villagers".colorize(:light_yellow)
             puts "\n"
             list_by_species(input)
-            puts "\n"
-            puts "Enter the #{"name".colorize(:light_cyan)} of the villager to get more info on (e.g. #{'"Bubbles"'.colorize(:light_cyan)})."
+            puts "\nEnter the #{"name".colorize(:light_cyan)} of the villager to get more info on (e.g. #{'"Bubbles"'.colorize(:light_cyan)})."
 
             name = gets.strip
+
             until AnimalCrossing::Villager.all.select{|i| i.species == input}.map{|i| i.name.downcase}.include?(name.downcase)
             puts "Invalid entry. Enter the #{"name".colorize(:light_cyan)} of the villager to get more info on (e.g. #{'"Kyle"'.colorize(:light_cyan)})."
             name = gets.strip
@@ -127,14 +118,14 @@ class AnimalCrossing::CLI
             puts "\n"
             villager_info(name)
             
-            puts "\n"
-            puts "Enter #{"wiki".colorize(:light_cyan)} to view the villager's wiki or #{"menu".colorize(:light_cyan)} for the menu."
+            puts "\nEnter #{"wiki".colorize(:light_cyan)} to view the villager's wiki or press #{"enter".colorize(:light_cyan)} for the menu."
             input = gets.strip
+
             if input == "wiki"
                 view_villager_wiki(name)
             end
         else
-            puts "Invalid entry."
+            puts "\nInvalid entry."
         end
     end
 
@@ -150,8 +141,7 @@ class AnimalCrossing::CLI
                 puts "\n"
                 villager_info(name.downcase)
 
-                puts "\n"
-                puts "Enter #{"wiki".colorize(:light_cyan)} to view the villager's wiki or #{"menu".colorize(:light_cyan)} for the menu."
+                puts "\nEnter #{"wiki".colorize(:light_cyan)} to view the villager's wiki or press #{"enter".colorize(:light_cyan)} for the menu."
                 input = gets.strip
                 if input == "wiki"
                     view_villager_wiki(name)
@@ -167,7 +157,7 @@ class AnimalCrossing::CLI
                 when "exit"
                     goodbye
                 else
-                    puts "Invalid entry."
+                    puts "\nInvalid entry."
                 end
             end
         end
@@ -183,6 +173,10 @@ class AnimalCrossing::CLI
      '.colorize(:light_yellow)
 
         puts "\n"
+    end
+
+    def scrape
+        AnimalCrossing::Villager.mass_assign_from_scraper
     end
 
     def view_villager_wiki(villager_name)
@@ -219,4 +213,5 @@ class AnimalCrossing::CLI
         AnimalCrossing::Villager.list_by_personalities(personality_name)
     end
 
-end # AnimalCrossing::CLI
+    # add quiz method here
+end

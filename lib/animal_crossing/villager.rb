@@ -3,8 +3,8 @@ class AnimalCrossing::Villager
 
     @@all = []
 
-    def initialize(name: nil, gender: nil, personality: nil, species: nil, birthday: nil, catch_phrase: nil, hobbies: nil, image_url: nil)
-        @name = name
+    def initialize(name:, gender:, personality:, species:, birthday:, catch_phrase:, hobbies:, image_url:)
+        @name = name.include?("NA") ? name.split("NA").first : name
         @gender = gender
         @personality = personality
         @species = species
@@ -72,9 +72,17 @@ class AnimalCrossing::Villager
         self.all.map{|i| i.hobbies}.uniq.sort{|a, b| a <=> b}.each_with_index{|v, i| puts "#{i+1}. #{v}"}
     end
 
-    def self.sort_by_birthday
+    def self.list_birthdays_by_month(month)
+        self.gather_birthdays_by_month(month).each_with_index{|v, i| puts "#{i+1}. #{v.name}: #{v.birthday.colorize(:light_yellow)}"}
     end
 
-    # create methods to sort by name, personality, species, sort_by_birthday
-    # bonus methods: sort_by_catchphrase, sort_by_hobby
+    def self.gather_birthdays_by_month(month)
+        self.all.select{|i| i.birthday.include?(month)}.sort_by{|i| i.birthday.scan(/(\d{1,2})/).first.first.to_i}
+    end
+    
+    def self.list_all_birthdays
+        months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        final_arr = months.map{|i| AnimalCrossing::Villager.gather_birthdays_by_month(i)}.flatten
+        final_arr.each_with_index{|v, i| puts "#{i+1}. #{v.name}: #{v.birthday.colorize(:light_yellow)}"}
+    end
 end

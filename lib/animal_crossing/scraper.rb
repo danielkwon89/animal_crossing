@@ -27,7 +27,19 @@ class AnimalCrossing::Scraper
 
         image_urls.each_with_index{|v, i| final_attr_arr[i] << v}
 
-        final_attr_arr.each{|i| villagers << i.each_with_object({}){|str, hsh| hsh[keys[i.index(str)]] = str}}
+        # final_attr_arr.each{|i| villagers << i.each_with_object({}){|str, hsh| hsh[keys[i.index(str)]] = str}}
+
+        counter = 0
+
+        final_attr_arr.each do |i| 
+            villagers << i.each_with_object({}) do 
+                |str, hsh| hsh[keys[counter]] = str
+                counter += 1
+            end
+        counter = 0
+        end
+
+        # binding.pry
 
         villagers
     end
