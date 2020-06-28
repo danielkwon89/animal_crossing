@@ -81,6 +81,14 @@ class AnimalCrossing::Villager
     def self.gather_birthdays_by_month(month)
         self.all.select{|i| i.birthday.include?(month)}.sort_by{|i| i.birthday.scan(/(\d{1,2})/).first.first.to_i}
     end
+
+    def self.birthday_months
+        months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"].each_with_index{|v, i| puts "#{i+1}. #{v.colorize(:light_yellow)}"}
+    end
+
+    def self.all_months
+        ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    end
     
     def self.list_all_birthdays
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]

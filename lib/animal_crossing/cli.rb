@@ -17,8 +17,8 @@ class AnimalCrossing::CLI
         until input == "list"
 
             puts <<~HEREDOC
-            \nWelcome to the Animal Crossing Villagers CLI gem!
-            \nType #{"list".colorize(:light_cyan)} to list villagers, #{"species".colorize(:light_cyan)} to view species or #{"personalities".colorize(:light_cyan)} to view personalities:
+            \n#{"Welcome to the Animal Crossing Villagers CLI gem!".colorize(:light_yellow)}
+            \nType #{"list".colorize(:light_cyan)} to list villagers, #{"species".colorize(:light_cyan)} to view species, #{"personalities".colorize(:light_cyan)} to view personalities, #{"months".colorize(:light_cyan)} to view birthday months, or #{"quiz".colorize(:light_cyan)} to take the villager quiz!
             HEREDOC
 
             input = gets.strip.downcase
@@ -29,6 +29,8 @@ class AnimalCrossing::CLI
                 list_species
             elsif input == "personalities"
                 list_personalities
+            elsif input == "months"
+                list_birthdays
                 # add elsif input == "quiz" logic here
             else
                 puts "\nInvalid entry."
@@ -87,6 +89,47 @@ class AnimalCrossing::CLI
         sort_by_name
     end
 
+    def list_birthdays
+        puts '
+        _   _   _   _   _   _   _   _     _   _   _   _   _   _  
+       / \ / \ / \ / \ / \ / \ / \ / \   / \ / \ / \ / \ / \ / \ 
+      ( B | i | r | t | h | d | a | y ) ( M | o | n | t | h | s )
+       \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/   \_/ \_/ \_/ \_/ \_/ \_/ 
+     '.colorize(:light_yellow)
+
+        birthday_months
+
+        puts "\nType a #{'birthday month'.colorize(:light_cyan)} to view villagers with birthdays from that #{'month'.colorize(:light_cyan)} (e.g. #{'"June"'.colorize(:light_cyan)})."
+
+        input = gets.strip.capitalize
+
+        if all_months.include?(input)
+            puts "\n#{input}".colorize(:light_yellow)
+            puts "\n"
+            list_birthdays_by_month(input)
+            puts "\nEnter the #{"name".colorize(:light_cyan)} of the villager to get more info on (e.g. #{'"Bubbles"'.colorize(:light_cyan)})."
+
+            name = gets.strip
+
+            until AnimalCrossing::Villager.all.select{|i| i.birthday.include?(input)}.map{|i| i.name.downcase}.include?(name.downcase)
+                puts "Invalid entry. Enter the #{"name".colorize(:light_cyan)} of the villager to get more info on (e.g. #{'"Peppy"'.colorize(:light_cyan)})."
+                name = gets.strip
+            end
+
+            name = AnimalCrossing::Villager.all.select{|i| i.name.downcase == name.downcase}.first.name
+            puts "\n"
+            villager_info(name)
+        else
+            puts "\nInvalid entry."
+        end
+
+        puts "\nEnter #{"wiki".colorize(:light_cyan)} to view the villager's wiki or press #{"enter".colorize(:light_cyan)} for the menu."
+        input = gets.strip
+        if input == "wiki"
+            view_villager_wiki(name)
+        end
+    end
+
     def list_species
         input = nil
         puts '
@@ -110,8 +153,8 @@ class AnimalCrossing::CLI
             name = gets.strip
 
             until AnimalCrossing::Villager.all.select{|i| i.species == input}.map{|i| i.name.downcase}.include?(name.downcase)
-            puts "Invalid entry. Enter the #{"name".colorize(:light_cyan)} of the villager to get more info on (e.g. #{'"Kyle"'.colorize(:light_cyan)})."
-            name = gets.strip
+                puts "\nInvalid entry. Enter the #{"name".colorize(:light_cyan)} of the villager to get more info on (e.g. #{'"Kyle"'.colorize(:light_cyan)})."
+                name = gets.strip
             end
             name = AnimalCrossing::Villager.all.select{|i| i.name.downcase == name.downcase}.first.name
 
@@ -133,7 +176,7 @@ class AnimalCrossing::CLI
         name = nil
 
         while name != "exit"
-            puts "\nEnter the #{"name".colorize(:light_cyan)} of the villager to get more info on (e.g. #{'"Zucker"'.colorize(:light_cyan)}). Enter #{"list".colorize(:light_cyan)} to list villagers, #{"species".colorize(:light_cyan)} to list species, #{"personalities".colorize(:light_cyan)} to list personalities or #{"exit".colorize(:light_cyan)} to exit:"
+            puts "\nEnter the #{"name".colorize(:light_cyan)} of the villager to get more info on (e.g. #{'"Zucker"'.colorize(:light_cyan)}). Enter #{"list".colorize(:light_cyan)} to list villagers, #{"species".colorize(:light_cyan)} to list species, #{"personalities".colorize(:light_cyan)} to list personalities, #{"months".colorize(:light_cyan)} to view birthday months, #{"quiz".colorize(:light_cyan)} to take the villager quiz, or #{"exit".colorize(:light_cyan)} to exit:"
 
             name = gets.strip
 
@@ -154,6 +197,8 @@ class AnimalCrossing::CLI
                     list_species
                 when "personalities"
                     list_personalities
+                when "months"
+                    list_birthdays
                 when "exit"
                     goodbye
                 else
@@ -211,6 +256,22 @@ class AnimalCrossing::CLI
 
     def list_by_personalities(personality_name)
         AnimalCrossing::Villager.list_by_personalities(personality_name)
+    end
+
+    def list_all_birthdays
+        AnimalCrossing::Villager.list_all_birthdays
+    end
+
+    def birthday_months
+        AnimalCrossing::Villager.birthday_months
+    end
+
+    def list_birthdays_by_month(month)
+        AnimalCrossing::Villager.list_birthdays_by_month(month)
+    end
+
+    def all_months
+        AnimalCrossing::Villager.all_months
     end
 
     # add quiz method here

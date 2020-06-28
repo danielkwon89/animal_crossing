@@ -1,8 +1,6 @@
 # AnimalCrossing
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/animal_crossing`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This gem scrapes Animal Crossing villager data off of https://animalcrossing.fandom.com/wiki/Villager_list_(New_Horizons) and makes it interactive, allowing you to sort and select villagers by name, species, personality, and birthday month.
 
 ## Installation
 
@@ -33,7 +31,6 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/<github username>/animal_crossing. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/<github username>/animal_crossing/blob/master/CODE_OF_CONDUCT.md).
-
 
 ## License
 
